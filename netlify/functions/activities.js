@@ -2,14 +2,18 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-const DATA_FILE = path.join(path.dirname(fileURLToPath(import.meta.url)), 'data', 'activities.json');
+// ✅ Konversi import.meta.url ke path yang bisa digunakan
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// Pastikan direktori `data` ada
+const DATA_FILE = path.join(__dirname, 'data', 'activities.json');
+
+// 🔹 Pastikan direktori `data` ada sebelum menulis file
 if (!fs.existsSync(path.dirname(DATA_FILE))) {
   fs.mkdirSync(path.dirname(DATA_FILE), { recursive: true });
 }
 
-// Pastikan file JSON ada
+// 🔹 Pastikan file JSON ada sebelum dibaca
 if (!fs.existsSync(DATA_FILE)) {
   fs.writeFileSync(DATA_FILE, JSON.stringify([]));
 }
@@ -24,6 +28,7 @@ export async function handler(event) {
         headers: { "Content-Type": "application/json" }
       };
     } catch (error) {
+      console.error('Error reading data file:', error);
       return {
         statusCode: 500,
         body: JSON.stringify({ error: 'Failed to read activities' })
@@ -40,6 +45,7 @@ export async function handler(event) {
         body: JSON.stringify({ success: true, message: 'Activities saved successfully' })
       };
     } catch (error) {
+      console.error('Error writing data file:', error);
       return {
         statusCode: 500,
         body: JSON.stringify({ error: 'Failed to save activities' })
