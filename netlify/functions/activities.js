@@ -2,15 +2,12 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// ✅ Konversi import.meta.url ke path yang bisa digunakan
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const DATA_FILE = path.join(__dirname, 'data', 'activities.json');
+const DATA_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), 'data');
+const DATA_FILE = path.join(DATA_DIR, 'activities.json');
 
 // 🔹 Pastikan direktori `data` ada sebelum menulis file
-if (!fs.existsSync(path.dirname(DATA_FILE))) {
-  fs.mkdirSync(path.dirname(DATA_FILE), { recursive: true });
+if (!fs.existsSync(DATA_DIR)) {
+  fs.mkdirSync(DATA_DIR, { recursive: true });
 }
 
 // 🔹 Pastikan file JSON ada sebelum dibaca
