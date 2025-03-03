@@ -56,7 +56,7 @@ function App() {
   const loadActivitiesFromServer = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get('http://localhost:3001/api/activities');
+      const response = await axios.get('https://ramadhantrackeractivity.netlify.app/.netlify/functions/activities');
       setActivities(response.data);
       setStatusMessage({ text: 'Activities loaded from server', type: 'success' });
     } catch (error) {
@@ -77,7 +77,7 @@ function App() {
   const saveActivitiesToServer = async () => {
     try {
       setIsLoading(true);
-      await axios.post('http://localhost:3001/api/activities', activities);
+      await axios.post('https://ramadhantrackeractivity.netlify.app/.netlify/functions/activities', activities);
       setStatusMessage({ text: 'Activities saved to server', type: 'success' });
       
       // Also save to localStorage as backup
