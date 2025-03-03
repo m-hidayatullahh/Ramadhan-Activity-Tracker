@@ -2,17 +2,14 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const DATA_FILE = path.join(path.dirname(fileURLToPath(import.meta.url)), 'data', 'activities.json');
 
-const DATA_FILE = path.join(__dirname, 'data', 'activities.json');
-
-// Create data directory if it doesn't exist
-if (!fs.existsSync(path.join(__dirname, 'data'))) {
-  fs.mkdirSync(path.join(__dirname, 'data'));
+// Pastikan direktori `data` ada
+if (!fs.existsSync(path.dirname(DATA_FILE))) {
+  fs.mkdirSync(path.dirname(DATA_FILE), { recursive: true });
 }
 
-// Create empty JSON file if it doesn't exist
+// Pastikan file JSON ada
 if (!fs.existsSync(DATA_FILE)) {
   fs.writeFileSync(DATA_FILE, JSON.stringify([]));
 }
