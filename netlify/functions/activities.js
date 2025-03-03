@@ -1,8 +1,7 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+const fs = require('fs');
+const path = require('path');
 
-const DATA_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), 'data');
+const DATA_DIR = path.join(__dirname, 'data');
 const DATA_FILE = path.join(DATA_DIR, 'activities.json');
 
 // 🔹 Pastikan direktori `data` ada sebelum menulis file
@@ -15,7 +14,7 @@ if (!fs.existsSync(DATA_FILE)) {
   fs.writeFileSync(DATA_FILE, JSON.stringify([]));
 }
 
-export async function handler(event) {
+exports.handler = async (event) => {
   if (event.httpMethod === "GET") {
     try {
       const data = fs.readFileSync(DATA_FILE, 'utf8');
@@ -51,4 +50,4 @@ export async function handler(event) {
   }
 
   return { statusCode: 405, body: "Method Not Allowed" };
-}
+};
